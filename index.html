@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Task Manager — Getting Started with AI</title>
+  <meta name="description" content="A small, accessible task manager demo with add, delete and mark-complete features.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title">Task Manager</h1>
+      <p class="site-subtitle">Simple, accessible and responsive task manager</p>
+    </div>
+  </header>
+
+  <main class="container" id="main">
+    <section aria-labelledby="add-heading" class="panel add-task-panel">
+      <h2 id="add-heading">Add task</h2>
+      <form id="task-form" aria-describedby="form-help">
+        <label for="task-input" class="sr-only">Task description</label>
+        <div class="input-group">
+          <input type="text" id="task-input" name="task" placeholder="What would you like to do?" autocomplete="off" required>
+          <button type="submit" class="btn primary" id="add-btn">Add</button>
+        </div>
+        <p class="form-help" id="form-help">Press Enter or click Add. Keyboard accessible.</p>
+      </form>
+
+      <div id="task-summary" class="task-summary" aria-live="polite">No tasks yet.</div>
+    </section>
+
+    <section aria-labelledby="tasks-heading" class="panel tasks-panel">
+      <h2 id="tasks-heading">Tasks</h2>
+
+      <div class="filters" role="toolbar" aria-label="Filter tasks">
+        <button type="button" class="btn filter-btn active" data-filter="all" id="filter-all" aria-pressed="true">All</button>
+        <button type="button" class="btn filter-btn" data-filter="active" id="filter-active" aria-pressed="false">Active</button>
+        <button type="button" class="btn filter-btn" data-filter="completed" id="filter-completed" aria-pressed="false">Completed</button>
+      </div>
+
+      <ul id="task-list" class="task-list" aria-live="polite" aria-relevant="additions removals"></ul>
+
+      <div class="actions">
+        <button id="clear-completed" class="btn" type="button">Clear completed</button>
+        <button id="clear-all" class="btn danger" type="button">Clear all</button>
+      </div>
+
+      <noscript>
+        <p class="form-help">JavaScript is required to use the task manager. Please enable JavaScript and reload the page.</p>
+      </noscript>
+    </section>
+  </main>
+
+  <footer class="site-footer container">
+    <p>Built for GettingStartedWithAI. <span id="year"></span></p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+
+  <script src="js/app.js" defer></script>
+</body>
+</html>
