@@ -279,3 +279,37 @@ input[type="text"]:focus{
   .panel{ box-shadow:none; border:1px solid rgba(255,255,255,0.03); }
   .toast{ background:linear-gradient(180deg,#111827,#0b1220); }
 }
+
+/* explicit theme override when a user toggles dark mode */
+html.dark{
+  --bg: #081022;
+  --card: #0b1220;
+  --text: #e6eef8;
+  --muted: #9aa6b2;
+  --primary: #7c88ff;
+}
+
+/* header layout to accommodate inline actions (theme toggle) */
+.site-header > .container{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+
+.site-header .brand{ display:flex; flex-direction:column; }
+.header-actions{ display:flex; align-items:center; gap:0.5rem; }
+
+/* Improve completed-task visibility in explicit dark theme */
+html.dark .task-item{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+html.dark .task-item.completed .task-text{
+  color: rgba(255,255,255,0.88);
+  opacity: 0.95;
+  text-decoration-color: rgba(255,255,255,0.28);
+  text-decoration-thickness: 1px;
+}

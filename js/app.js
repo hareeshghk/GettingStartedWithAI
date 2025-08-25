@@ -12,6 +12,9 @@
   const clearCompletedBtn = document.getElementById('clear-completed');
   const clearAllBtn = document.getElementById('clear-all');
 
+  // theme storage key
+  const THEME_KEY = 'getting-started-theme';
+
   let tasks = [];
   // current filter: 'all' | 'active' | 'completed'
   let currentFilter = 'all';
@@ -84,6 +87,31 @@
       summaryEl.textContent = `${total} task${total!==1?'s':''} — ${completed} completed`;
     }
   }
+
+  // Theme helpers ----------------------------------------------------------
+  function applyTheme(theme){
+    const root = document.documentElement;
+    root.classList.toggle('dark', theme === 'dark');
+
+    const btn = document.getElementById('theme-toggle');
+    if(btn){
+      const isDark = theme === 'dark';
+      btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+      btn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+      // simple icon-only label; screen reader gets aria-label
+      btn.textContent = isDark ? '☀️' : '🌙';
+    }
+  }
+
+  function getInitialTheme(){
+    try{
+      const saved = localStorage.getItem(THEME_KEY);
+      if(saved === 'dark' || saved === 'light') return saved;
+    }catch(e){}
+    if(window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches) return 'dark';
+    return 'light';
+  }
+  // -----------------------------------------------------------------------
 
   function setFilter(filter){
     if(!['all','active','completed'].includes(filter)) filter = 'all';
@@ -194,6 +222,10 @@
   document.addEventListener('DOMContentLoaded', function(){
     tasks = loadTasks();
 
+    // initial theme
+    const initialTheme = getInitialTheme();
+    applyTheme(initialTheme);
+
     // default filter
     setFilter(currentFilter);
 
@@ -223,6 +255,22 @@
         setFilter(f);
       });
     });
+
+    // wire theme toggle button
+    const themeToggle = document.getElementById('theme-toggle');
+    if(themeToggle){
+      // set initial appearance for toggle
+      themeToggle.setAttribute('aria-pressed', document.documentElement.classList.contains('dark') ? 'true' : 'false');
+      themeToggle.setAttribute('aria-label', document.documentElement.classList.contains('dark') ? 'Switch to light mode' : 'Switch to dark mode');
+      themeToggle.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
+
+      themeToggle.addEventListener('click', function(){
+        const newTheme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+        applyTheme(newTheme);
+        try{ localStorage.setItem(THEME_KEY, newTheme); }catch(e){}
+        showToast(`Switched to ${newTheme} mode`);
+      });
+    }
 
     // keyboard shortcuts to focus the input (Ctrl/Cmd+K or /)
     document.addEventListener('keydown', function(e){
